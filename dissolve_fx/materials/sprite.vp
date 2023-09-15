@@ -1,16 +1,23 @@
 uniform highp mat4 view_proj;
 
+uniform mediump vec4 noise_uvrect;
+
 // positions are in world space
 attribute highp vec4 position;
 attribute mediump vec2 texcoord0;
 attribute mediump vec3 position_local;
 
 varying mediump vec2 var_texcoord0;
-varying mediump vec2 var_noise_coord;
+varying mediump vec2 var_noise_texcoord;
+// varying mediump vec2 var_ramp_texcoord;
 
 void main()
 {
     gl_Position = view_proj * vec4(position.xyz, 1.0);
     var_texcoord0 = texcoord0;
-    var_noise_coord = position_local.xy + 0.5;
+
+    // Calculation of texture coordinates of noise sprite
+    var_noise_texcoord = noise_uvrect.xy + noise_uvrect.zw * position_local.xy;
+    // Calculation of texture coordinates of ramp sprite
+    // var_ramp_texcoord = ramp_uvrect.xy + ramp_uvrect.zw * position_local.xy;
 }
