@@ -1,0 +1,22 @@
+local dissolve_fx = require("dissolve_fx.dissolve_fx")
+
+local function play_dissolve()
+    go.set("/obj#logo", "dissolve.w", 0.0) -- initial value
+    go.animate("/obj#logo", "dissolve.w", go.PLAYBACK_ONCE_FORWARD, 1, go.EASING_LINEAR, 1.25, 0.25, function ()
+        go.animate("/obj#logo", "dissolve.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR, 1.25, 0.5, play_dissolve)
+    end)
+end
+
+function init(self)
+    msg.post(".", "acquire_input_focus")
+    msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
+
+    dissolve_fx.init("/obj#logo", "noise", "ramp") -- args: sprite component with dissolve material, noise image name, ramp image name.
+    go.set("/obj#logo", "dissolve.z", 0.25) -- size of the burn
+    go.set("/obj#logo", "dissolve.w", 0.0) -- to control the fx, 0.0 - 1.0
+
+    play_dissolve()
+end
+
+function on_input(self, action_id, action)
+end

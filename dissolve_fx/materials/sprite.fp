@@ -1,34 +1,35 @@
 varying highp vec2 var_texcoord0;
 varying mediump vec2 var_noise_texcoord;
-// varying mediump vec2 var_ramp_texcoord;
 
 uniform lowp sampler2D texture_sampler;
 
 uniform mediump vec4 tint;
 uniform mediump vec4 dissolve;
-
 uniform mediump vec4 ramp_uvrect;
 
 void main()
 {
+    // Sample sprite's color
     lowp vec4 color = texture2D(texture_sampler, var_texcoord0.xy);
 
-    lowp float burn_size = 0.25;
+    // Dissolve fx
     if (dissolve.w > 0.0 && color.a > 0.0) {
+        lowp float burn_size = dissolve.z;
+        lowp float burn_value = dissolve.w * (dissolve.w + burn_size);
         lowp float noise = texture2D(texture_sampler, var_noise_texcoord.xy).r;
-        lowp float test = noise - dissolve.w;
 
-        if (test < burn_size) {
+        if (noise < burn_value) {
             // De-multiply alpha
             color = vec4(color.rgb / color.a, color.a);
 
-            // Dissolve!
-            lowp float test_n = test * (1.0 / burn_size);
-            lowp vec4 ramp = texture2D(texture_sampler, vec2(ramp_uvrect.x + ramp_uvrect.z * (clamp(1.0 - test_n, 0.0, 1.0) - 0.5), ramp_uvrect.y + ramp_uvrect.w * 0.5));
-            // color.rgb = ramp.rgb;
+            // Grab a color from the ramp
+            lowp float ramp_x = min(1.0, (burn_value - noise) / burn_size);
+            // Sample with bias -4.0 to get the highest mipmap to reduce artifacts, if you use textures with mipmaps
+            lowp vec4 ramp = texture2D(texture_sampler, vec2(ramp_uvrect.x + ramp_uvrect.z * (ramp_x - 0.5), ramp_uvrect.y + ramp_uvrect.w * 0.5), -4.0);
 
-            color.rgb = mix(color.rgb, ramp.rgb, ramp.a);
-            color.a = clamp(color.a * test_n, 0.0, 1.0);
+            // Mix
+            color.rgb = ramp.rgb;
+            color.a = color.a * ramp.a;
 
             // Pre-multiply alpha again
             color = vec4(color.rgb * color.a, color.a);
