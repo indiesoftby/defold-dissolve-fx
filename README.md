@@ -1,3 +1,5 @@
+[![Dissolve FX for Defold cover](cover.jpg)](https://github.com/indiesoftby/defold-dissolve-fx)
+
 # Dissolve FX for Defold
 
 This is an example of implementing the dissolve effect for sprites for the Defold game engine.
