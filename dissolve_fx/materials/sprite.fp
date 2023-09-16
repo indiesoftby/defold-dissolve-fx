@@ -19,9 +19,6 @@ void main()
         lowp float noise = texture2D(texture_sampler, var_noise_texcoord.xy).r;
 
         if (noise < burn_value) {
-            // De-multiply alpha
-            color = vec4(color.rgb / color.a, color.a);
-
             // Grab a color from the ramp
             lowp float ramp_x = min(1.0, (burn_value - noise) / burn_size);
             highp vec2 ramp_texcoord = vec2(ramp_uvrect.x, ramp_uvrect.y);
@@ -36,10 +33,7 @@ void main()
 
             // Mix
             color.rgb = ramp.rgb;
-            color.a = color.a * ramp.a;
-
-            // Pre-multiply alpha again
-            color = vec4(color.rgb * color.a, color.a);
+            color.a *= ramp.a;
         }
     }
 
