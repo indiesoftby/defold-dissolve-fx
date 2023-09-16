@@ -44,7 +44,12 @@ function M.find_uvrect(sprite_url, image_id)
     local position_y = uvs[6]
     local width = uvs[5] - uvs[1]
     local height = uvs[2] - uvs[6]
-    -- pprint(position_x, tex_h - position_y, width, height)
+
+    if height < 0 then
+        -- In case the atlas builder has flipped the sprite to optimise the space.
+        position_y = uvs[2]
+        height = uvs[6] - uvs[2]
+    end
 
     return (position_x + width/2) / tex_w,         -- x + w/2
         (tex_h - (position_y + height/2)) / tex_h, -- y + h/2

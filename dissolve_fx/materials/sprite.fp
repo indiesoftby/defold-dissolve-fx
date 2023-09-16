@@ -12,7 +12,7 @@ void main()
     // Sample sprite's color
     lowp vec4 color = texture2D(texture_sampler, var_texcoord0.xy);
 
-    // Dissolve fx
+    // Dissolve effect
     if (dissolve.w > 0.0 && color.a > 0.0) {
         lowp float burn_size = dissolve.z;
         lowp float burn_value = dissolve.w * (dissolve.w + burn_size);
@@ -24,8 +24,15 @@ void main()
 
             // Grab a color from the ramp
             lowp float ramp_x = min(1.0, (burn_value - noise) / burn_size);
-            // Sample with bias -4.0 to get the highest mipmap to reduce artifacts, if you use textures with mipmaps
-            lowp vec4 ramp = texture2D(texture_sampler, vec2(ramp_uvrect.x + ramp_uvrect.z * (ramp_x - 0.5), ramp_uvrect.y + ramp_uvrect.w * 0.5), -4.0);
+            highp vec2 ramp_texcoord = vec2(ramp_uvrect.x, ramp_uvrect.y);
+            if (ramp_uvrect.z > ramp_uvrect.w) {
+                ramp_texcoord += vec2(ramp_uvrect.z * (ramp_x - 0.5), ramp_uvrect.w * 0.5);
+            } else {
+                // In case the atlas builder has flipped the sprite to optimise the space.
+                ramp_texcoord += vec2(ramp_uvrect.z * 0.5, ramp_uvrect.w * -(ramp_x - 0.5));
+            }
+            // Sample with bias -4.0 to get the highest mipmap to reduce artifacts (if you use textures with mipmaps)
+            lowp vec4 ramp = texture2D(texture_sampler, ramp_texcoord, -4.0);
 
             // Mix
             color.rgb = ramp.rgb;
