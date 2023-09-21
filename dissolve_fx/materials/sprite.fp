@@ -28,8 +28,8 @@ void main()
                 // In case the atlas builder has flipped the sprite to optimise the space.
                 ramp_texcoord += vec2(ramp_uvrect.z * 0.5, ramp_uvrect.w * -(ramp_x - 0.5));
             }
-            // Sample with bias -4.0 to get the highest mipmap to reduce artifacts (if you use textures with mipmaps)
-            lowp vec4 ramp = texture2D(texture_sampler, ramp_texcoord, -4.0);
+            // Sample with bias -8.0 to get the highest mipmap to reduce artifacts (if you use textures with mipmaps)
+            lowp vec4 ramp = texture2D(texture_sampler, ramp_texcoord, -8.0);
 
             // Mix
             color.rgb = ramp.rgb;
