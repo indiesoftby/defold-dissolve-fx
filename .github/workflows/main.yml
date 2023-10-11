@@ -21,7 +21,7 @@ jobs:
 
       - name: Build 🔧
         env:
-          DEFOLD_BOB_SHA1: ${{ secrets.DEFOLD_BOB_SHA1 }}
+          DEFOLD_BOB_SHA1: ${{ vars.DEFOLD_BOB_SHA1 }}
         run: |
           lsb_release -a
 
