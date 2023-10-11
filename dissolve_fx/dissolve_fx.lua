@@ -8,7 +8,7 @@
 -- local dissolve_fx = require("dissolve_fx.dissolve_fx")
 -- 
 -- function init(self)
---     dissolve_fx.init("#sprite", "noise", "ramp") -- args: sprite component with dissolve material, noise image name, ramp image name, scale mode (fit or stretch).
+--     dissolve_fx.init("#sprite", "noise", "ramp", "stretch") -- args: sprite component with dissolve material, noise image name, ramp image name, scale mode (cover or stretch).
 --     go.set("#sprite", "dissolve.z", 0.25) -- size of the fire. Adjust subjectively to your eye!
 --     go.set("#sprite", "dissolve.w", 0.0) -- to control the fx, 0.0 - 1.0
 -- 
