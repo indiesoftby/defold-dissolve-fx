@@ -1,5 +1,5 @@
 images {
-  image: "/example/assets/images/logo.png"
+  image: "/example/assets/images/logo_vertical.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
@@ -10,8 +10,13 @@ images {
   image: "/example/assets/dissolve/noise.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
+images {
+  image: "/example/assets/images/logo_horizontal.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
 margin: 8
 extrude_borders: 2
 inner_padding: 0
 max_page_width: 0
 max_page_height: 0
+rename_patterns: ""
