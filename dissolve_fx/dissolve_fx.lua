@@ -28,7 +28,7 @@ function M.find_uvrect(sprite_url, image_id, scale_mode)
     local image_num
     for i, animation in ipairs(atlas_data.animations) do
         if animation.id == image_id then
-            image_num = i
+            image_num = animation.frame_start
             break
         end
     end
