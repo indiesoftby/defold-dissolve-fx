@@ -38,7 +38,7 @@ jobs:
           java -jar bundle/bob.jar --email a@b.com --auth 123 --texture-compression true --bundle-output bundle/js-web --platform js-web --architectures wasm-web --archive --variant debug resolve build bundle
 
           # Move to the public directory
-          mv bundle/js-web/* bundle/public
+          mv bundle/js-web/*/ bundle/public
 
       - name: Deploy to Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
